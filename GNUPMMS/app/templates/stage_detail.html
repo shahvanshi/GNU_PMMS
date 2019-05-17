@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        {% block content %}
+            {% for i in status1 %}
+                {% if i.Status == -1 %}
+                    <p>{{ i.StageID }} Stage is yet to be unlocked.</p>
+                {% endif %}
+
+                {% if i.Status == 1 %}
+                    <p>File is already Uploaded by you and pending for Approval for the {{ i.StageID }} Stage.</p>
+                {% endif %}
+
+                {% if i.Status == 2 %}
+                    <p>File is already Approved by you for the {{ i.StageID }} Stage.</p>
+                {% endif %}
+
+                {% if i.Status == 0 %}
+                    <table>
+                        <tr>
+                            <th> Project ID </th>
+                            <th> Stage ID </th>
+                            <th> Stage Name </th>
+                            <th> Stage Sequence </th>
+                            <th> File Upload </th>
+                        </tr>
+                        <tr>
+                            <td> {{pid }} </td>
+                            <td> {{ i.StageID }}</td>
+                            <td> {{ i.StageName }}</td>
+                            <td>{{ i.StageSequence}} </td>
+                            <td>
+                                <form method="POST" class="post-form" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <input type = text name="ProjectID" value="{{ pid }}" hidden>
+                                    <input type = text name = "StageID" value="{{ i.StageID.pk }}" hidden>
+                                    <input type = text name = "FileName" value="{{ pid}}_{{ i.StageID.pk }}" hidden>
+                                    <input type = text name = "FilePath" value="app/upload/{{pid }}_{{ i.StageID }}" hidden>
+                                    <input type = text name = "UploadedBy" value=1 hidden>
+                                    <button type="submit" class="btn waves-effect waves-light">Save</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                {% endif %}
+            {% endfor %}
+        {#<!--#}
+        {#    {%  for i in stage %}#}
+        {#        {% for j in status1 %}#}        {##}
+        {#        {% if i.StageID == j.StageID.pk and j.Status == 1 %}#}
+        {#        <p>Stage {{ i.StageID }} Completed.</p>#}
+        {#        {% endif %}#}
+        {#            <table>#}
+        {#    <tr>#}
+        {#        <th> Project ID </th>#}
+        {#        <th> Stage ID </th>#}
+        {#        <th> Stage Name </th>#}
+        {#        <th> Stage Sequence </th>#}
+        {#        <th> File Upload </th>#}
+        {#    </tr>#}
+        {#    <tr>#}
+        {#        {% if i.StageID == j.StageID.pk and j.Status == 0 %}#}
+        {#        <th> {{pid }} </th>#}
+        {#        <th> {{ i.StageID }}</th>#}
+        {#        <th> {{ i.StageName }}</th>#}
+        {#        <th>{{ i.StageSequence}} </th>#}
+        {#        <th> <form method="POST" class="post-form" enctype="multipart/form-data">#}
+        {#        {% csrf_token %}#}
+        {#        {{ form.as_p }}#}
+        {#            <input type = text name="ProjectID" value="{{ pid }}" hidden>#}
+        {#            <input type = text name = "StageID" value="{{ i.StageID }}" hidden>#}
+        {#            <input type = text name = "FileName" value="{{ pid}}_{{ i.StageID }}" hidden>#}
+        {#            <input type = text name = "FilePath" value="app/upload/{{pid }}_{{ i.StageID }}" hidden>#}
+        {#            <input type = text name = "UploadedBy" value=1 hidden>#}
+        {#        <button type="submit" class="save btn btn-default">Save</button>#}
+        {#</form>   </th>#}
+        {#    {{ break }}#}
+        {#    {% endif %}#}
+        {#    </tr>#}
+        {#    {%  endfor %}#}
+        {#        {{ break }}#}
+        {#    {%  endfor %}#}
+        {#</table>#}
+        {##}
+        {#-->#}
+        {% endblock %}
+    </body>
+</html>

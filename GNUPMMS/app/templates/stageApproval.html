@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        {% block content %}
+            {% for i in status1 %}
+
+                {% if i.Status == -1 %}
+                    <p>{{ i.StageID }} Stage is yet to be unlocked.</p>
+                {% endif %}
+
+                {% if i.Status == 0 %}
+                    <p>File is not uploaded for the {{ i.StageID }} Stage by Student yet.</p>
+                {% endif %}
+
+                {% if i.Status == 2 %}
+                    <p>File is already Approved by you for the {{ i.StageID }} Stage.</p>
+                {% endif %}
+
+                {% if i.Status == 1 %}
+                    <table>
+                        <tr>
+                            <th> Project ID </th>
+                            <th> Stage Name </th>
+                            <th> Stage Sequence </th>
+                            <th> Uploaded File </th>
+                            <th> Set Status </th>
+                        </tr>
+                        <tr>
+                            <td> {{pid }} </td>
+                            <td> {{ i.StageID }}</td>
+                            <td> {{ i.ActivityType }}</td>
+                            <td> <a href="/app/upload/{{ i.ProjectID }}_{{ i.StageID }}*">Click to See</a> </td>
+                            <td>
+                                <form method="POST" style="margin: 20px">
+                                    <style>
+                                        select {
+                                            display: block;
+                                        }
+                                    </style>
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <input type = text name="ProjectID" value="{{ pid }}" hidden>
+                                    <input type = text name = "StageID" value="{{ i.StageID.pk }}" hidden>
+                                    <input type = text name = "ActivityType" value="{{ i.ActivityType.pk }}" hidden>
+                                    <input type = text name = "CreatedBy" value="1" hidden>
+                                    <input type = text name = "ModifiedBy" value="1" hidden>
+                                    <button type="submit" class="btn waves-effect waves-light">Save</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                {% endif %}
+
+            {% endfor %}
+        {% endblock %}
+    </body>
+</html>

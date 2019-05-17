@@ -1,0 +1,39 @@
+{# yonetim/templates/list.html #}
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+    </head>
+    <body>
+        {% block content %}
+            <table>
+                <tr>
+                    <th> External User ID </th>
+                    <th> Name </th>
+                    <th> Address </th>
+                    <th> Qualification </th>
+                    <th> Specialization </th>
+                    <th> Company Name </th>
+                    <th> Current Position </th>
+                    <th> Area of Interest </th>
+                    <th> Mobile Number </th>
+                </tr>
+                {% for i in extusr %}
+                    <tr>
+                        <td>{{ i.ExternalUserID }}</td>
+                        <td>{{ i.ExternalUserName }}</td>
+                        <td>{{ i.EmailAddress }}</td>
+                        <td>{{ i.Qualification }}</td>
+                        <td>{{ i.Specialization }}</td>
+                        <td>{{ i.CompanyName }}</td>
+                        <td>{{ i.CurrentPosition }}</td>
+                        <td>{{ i.AreaOfInterest }}</td>
+                        <td>{{ i.MobileNumber }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endblock %}
+    </body>
+</html>

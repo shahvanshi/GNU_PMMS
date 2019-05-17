@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+
+    <div class="card-panel grey lighten-4" style="width: 400px;margin:20px auto;">
+        <form method="POST">
+            {%  csrf_token %}
+            <style>
+                select {
+                    display: block;
+                }
+            </style>
+            {{ form.as_p }}
+            <button type="submit" class="btn waves-effect waves-light" value="Register">Register</button>
+        </form>
+    </div>
+
+{% endblock %}
+</body>
+</html>

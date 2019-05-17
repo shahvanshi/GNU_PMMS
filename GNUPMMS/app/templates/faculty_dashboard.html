@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+
+    {% if not request.session.username %}
+        <p>You are not Logged In.</p>
+        <a href="/app/login">Login</a>
+    {% endif %}
+
+    {% if request.session.username %}
+        Hello {{ request.session.username }}
+        <a href="/app/logout">Logout</a>
+        <table>
+            <tr>
+                <th> Project ID </th>
+                <th> Project Name </th>
+                <th> Subject </th>
+                <th> Description </th>
+                <th> Internal Guide </th>
+                <th> HOD </th>
+                <th> Principal </th>
+                <th> External Guide </th>
+                <th> Team Lead </th>
+                <th> Status </th>
+            </tr>
+            {% for i in stuproj %}
+                <tr>
+                    <td>{{ i.ProjectID }}</td>
+                    <td><a href="/app/stageApproval/{{ i.ProjectID }}">{{ i.ProjectName }} </a></td>
+                    <td>{{ i.Subject }}</td>
+                    <td>{{ i.Description }}</td>
+                    <td>{{ i.InternalGuide }}</td>
+                    <td>{{ i.HOD }}</td>
+                    <td>{{ i.Principal }}</td>
+                    <td>{{ i.ExternalGuide }}</td>
+                    <td>{{ i.TeamLead }}</td>
+                    <td>{{ i.Status }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}
+</body>
+</html>
